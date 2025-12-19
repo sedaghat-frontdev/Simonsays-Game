@@ -19,7 +19,7 @@ A Game with rythm and hard algorythm using HTML and CSS3 and JavaScript! .
 <br/>
 <br/>
 <p align="center">
-  <a href="https://sedaghat-frontdev.github.io/Snake-Game/" target="_blank">
+  <a href="https://sedaghat-frontdev.github.io/Simonsays-Game/" target="_blank">
     <img src="https://img.shields.io/badge/Live%20Demo-Click%20Here-brightgreen?style=for-the-badge" alt="Live Demo"/>
   </a>
 </p>
