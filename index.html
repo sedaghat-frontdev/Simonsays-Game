@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+  <meta charset=UTF-8>
+  <meta name=viewport content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet" href="style/master.css">
+  <link rel="stylesheet" href="style/FontIcons/remixicon.css">
+</head>
+
+<body>
+  <main class="sec">
+    <div>
+      <h1></h1>
+    </div>
+    <div>
+      <div class="box" data-id="1"></div>
+      <div class="box" data-id="2"></div>
+      <div class="box" data-id="3"></div>
+    </div>
+    <div><button>play game</button></div>
+  </main>
+
+  <div class="footer">
+    <div><figure><img src="style/simon says.jpg" alt=""></figure></div>
+    <div>
+      <div><a href="https://github.com/sedaghat-frontdev"><i class="ri-github-line"></i></a></div>
+      <div><a href="https://www.instagram.com/sedaghat-frontdev/"><i class="ri-instagram-line"></i></a></div>
+      <div><a href="mailto:rezzasedaghat@gmail.com"><i class="ri-mail-line"></i></a></div>
+    </div>
+    <div>
+      <div><h1>MohammadReza Sedaghat</h1></div>
+      <div><h1>Sedaghat-FrontDev</h1></div>
+      <div><h1>Hope you`ve enjoyed !</h1></div>
+    </div>
+  </div>
+</body>
+
+<script>
+  let userPattern = [];
+  const btn = document.querySelector('button')
+  let pattern = []
+  let count = 3
+  let h1 = document.querySelector('h1')
+  let isPlaying = false
+  const box = document.querySelectorAll('.box')
+  let waitingUser = false;
+  let level = 1;
+  let score = 0;
+
+
+
+
+
+  function makePattern() {
+    pattern = []
+
+    for (let i = 0; i < count; i++) {
+      let r = Math.floor(Math.random() * 3)
+      pattern.push(r)
+    }
+    console.log(pattern);
+
+  }
+
+  btn.addEventListener('click', () => {
+    if (isPlaying || waitingUser) return;
+
+    makePattern();
+    h1.innerText = "Watch carefully!";
+    isPlaying = true;
+    playPattern();
+  });
+
+
+
+
+
+  function lightBox(index) {
+    box[index].classList.add('active')
+
+    setTimeout(() => {
+      box[index].classList.remove('active')
+    }, 500)
+  }
+
+  function playPattern(index = 0) {
+    if (index >= pattern.length) {
+      h1.innerText = "Your Turn";
+      isPlaying = false;
+      waitingUser = true;
+      userPattern = [];
+      return;
+    }
+
+    lightBox(pattern[index]);
+
+    setTimeout(() => {
+      playPattern(index + 1);
+    }, 700);
+  }
+
+  box.forEach((item, index) => {
+    item.addEventListener('click', () => {
+      if (!waitingUser) return;
+
+      userPattern.push(index);
+      lightBox(index);
+
+      let currentIndex = userPattern.length - 1;
+
+      // ❌ اگر اشتباه زد
+      if (userPattern[currentIndex] !== pattern[currentIndex]) {
+        h1.innerText = "Game Over ❌";
+        waitingUser = false;
+        isPlaying = false;
+        return;
+        resetGame();
+      }
+
+
+      // ✅ اگر همه رو درست زد
+      if (userPattern.length === pattern.length) {
+        h1.innerText = `Level ${level} | Score ${score}`;
+        waitingUser = false;
+
+        level++;
+        score += 10;
+        count++; // سخت‌تر شدن
+      }
+
+    });
+  });
+
+  function resetGame() {
+    level = 1;
+    score = 0;
+    count = 3;
+    pattern = [];
+    userPattern = [];
+    waitingUser = false;
+    isPlaying = false;
+    h1.innerText = "Play Game";
+  }
+
+
+
+
+</script>
+
+</html>
